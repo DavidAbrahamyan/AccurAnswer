@@ -1,0 +1,11 @@
+cohere==4.36
+datasets==2.14.6
+langchain==0.0.325
+openai==0.28.0
+pandas==2.1.1
+python-dotenv==1.0.0
+pinecone-client==2.2.4
+ragas==0.0.18
+streamlit==1.27.0
+tiktoken==0.5.1
+tvalmetrics==0.0.3
