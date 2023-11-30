@@ -1,6 +1,10 @@
 # RAG-Tool
 This is a Retrieval Augmented Generation (RAG)-based tool designed for expanding GPT-3.5-turbo-16k LLM's knowledge domain and enhancing its answers on latest NLP trends including transformer models available on HuggingFace as well as the LangChain Framework documentation.
 
+Before staring make sure you have the following:
+1. OpenAI API Key (https://platform.openai.com/docs/quickstart?context=python)
+2. Cohere AI API Key (https://docs.cohere.com/docs)
+3. An index in Pinecone (https://www.pinecone.io/)
 # How to Setup
 Follow these instructions to run the program
 ### Setup the environment variables
