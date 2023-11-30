@@ -1,1 +1,63 @@
 # RAG-Tool
+This is a Retrieval Augmented Generation (RAG)-based tool designed for expanding GPT-3.5-turbo-16k LLM's knowledge domain and enhancing its answers on latest NLP trends including transformer models available on HuggingFace as well as the LangChain Framework documentation.
+
+# How to Setup
+Follow these instructions to run the program
+### Setup the environment variables
+Copy .env.example file into .env
+
+`cp .env.example .env`
+
+After copying the environment variables into .env file, fill them in
+OPENAI_API_KEY=Your OpenAI API Key
+
+PINECONE_ENVIRONMENT_512=Your Pinecone Environment for storing data that is split using 512 chunk-size ("gcp-starter" if using the default free version)
+
+PINECONE_ENVIRONMENT_1024=Your Pinecone Environment for storing data that is split using 1024 chunk-size ("gcp-starter" if using the default free version)
+
+PINECONE_512_INDEX_API_KEY=The API Key of the index that is going to store data that is split using 512 chunk-size
+
+PINECONE_1024_INDEX_API_KEY=The API Key of the index that is going to store data that is split using 1024 chunk-size
+
+COHERE_API_KEY=Your Cohere API Key
+
+### Load Data into Pinecone
+run the following command to load the data into Pinecone
+
+`python3 load_data.py`
+
+### Get the USer-Interface
+If you want to interact with the model that uses 512 chunk-size to partition data, run the following:
+
+`streamlit run conversation/gpt_with_data_512`
+
+If you want to interact with the model that uses 1024 chunk-size to partition data, run the following:
+
+`streamlit run conversation/gpt_with_data_1024`
+
+### Model Evaluation
+There are 4 different files used for evaluating the models
+
+If you want to run evaluations for the architecture that uses a chunk size of 512 (no rerank), run the following:
+
+`python3 evaluation_calculations/evaluation_calculation_512.py`
+
+If you want to run evaluations for the architecture that uses a chunk size of 512 (with rerank), run the following:
+
+`python3 evaluation_calculations/evaluation_calculation_512_rerank.py`
+
+If you want to run evaluations for the architecture that uses a chunk size of 1024 (no rerank), run the following:
+
+`python3 evaluation_calculations/evaluation_calculation_1024.py`
+
+If you want to run evaluations for the architecture that uses a chunk size of 1024 (with rerank), run the following:
+
+`python3 evaluation_calculations/evaluation_calculation_1024_rerank.py`
+
+# Architecture
+Our project pipeline is based on Retrieval-Augmented Generation (RAG) architecture and is used to enable gpt-3.5-turbo-16k model to answer questions regarding the latest developed transformer models available on HuggingFace as well as the LangChain Framework documentation. Both of the mentioned data sources are primarily outside of the model's training set, preventing it from generating responses on questions based on those topics.
+It uses RAG architecture to overcome this limitation. This includes the following: firstly, data that we collected on transformer models and LangChain documentation must be stored in a Pinecone, which is a vector-store. The data that we collected is recursively split into pieces (chunks) of data using predefined chunk-size (either 512 or 1024 in our case). Once the user writes a question (prompt), it is converted to a vector using an embedding model (text-embedding-ada-002). Then, the embedding vector is used to search for the most similar chunks of data in our Pinecone index. Afterwards, the similar chunks are retrieved and then re-ranked using Cohere Rerank based on the relevance of those chunks to the given question. Then, the k (predefined by us) most similar chunks are provided as a context to the LLM (gpt-3.5-turbo-16k) to generate a response. The usage if RAG architecture based on official documentation data, reduces the risk of hallucinated responses by the LLM. 
+
+![Architecture Diagram](architecture_diagram.png)
+
+# Team
