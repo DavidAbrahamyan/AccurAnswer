@@ -6,7 +6,9 @@ Follow these instructions to run the program
 ### Setup the environment variables
 Copy .env.example file into .env
 
-`cp .env.example .env`
+```shell
+cp .env.example .env
+```
 
 After copying the environment variables into .env file, fill them in
 OPENAI_API_KEY=Your OpenAI API Key
@@ -24,35 +26,49 @@ COHERE_API_KEY=Your Cohere API Key
 ### Load Data into Pinecone
 run the following command to load the data into Pinecone
 
-`python3 load_data.py`
+```shell
+python3 load_data.py
+```
 
 ### Get the USer-Interface
 If you want to interact with the model that uses 512 chunk-size to partition data, run the following:
 
-`streamlit run conversation/gpt_with_data_512`
+```shell
+streamlit run conversation/gpt_with_data_512
+```
 
 If you want to interact with the model that uses 1024 chunk-size to partition data, run the following:
 
-`streamlit run conversation/gpt_with_data_1024`
+```shell
+streamlit run conversation/gpt_with_data_1024
+```
 
 ### Model Evaluation
 There are 4 different files used for evaluating the models
 
 If you want to run evaluations for the architecture that uses a chunk size of 512 (no rerank), run the following:
 
-`python3 evaluation_calculations/evaluation_calculation_512.py`
+```shell
+python3 evaluation_calculations/evaluation_calculation_512.py
+```
 
 If you want to run evaluations for the architecture that uses a chunk size of 512 (with rerank), run the following:
 
-`python3 evaluation_calculations/evaluation_calculation_512_rerank.py`
+```shell
+python3 evaluation_calculations/evaluation_calculation_512_rerank.py
+```
 
 If you want to run evaluations for the architecture that uses a chunk size of 1024 (no rerank), run the following:
 
-`python3 evaluation_calculations/evaluation_calculation_1024.py`
+```shell
+python3 evaluation_calculations/evaluation_calculation_1024.py
+```
 
 If you want to run evaluations for the architecture that uses a chunk size of 1024 (with rerank), run the following:
 
-`python3 evaluation_calculations/evaluation_calculation_1024_rerank.py`
+```shell
+python3 evaluation_calculations/evaluation_calculation_1024_rerank.py
+```
 
 # Architecture
 Our project pipeline is based on Retrieval-Augmented Generation (RAG) architecture and is used to enable gpt-3.5-turbo-16k model to answer questions regarding the latest developed transformer models available on HuggingFace as well as the LangChain Framework documentation. Both of the mentioned data sources are primarily outside of the model's training set, preventing it from generating responses on questions based on those topics.
