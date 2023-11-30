@@ -43,7 +43,7 @@ If you want to interact with the model that uses 1024 chunk-size to partition da
 streamlit run conversation/gpt_with_data_1024
 ```
 
-### Model Evaluation
+# Model Evaluation
 There are 4 different files used for evaluating the models
 
 If you want to run evaluations for the architecture that uses a chunk size of 512 (no rerank), run the following:
