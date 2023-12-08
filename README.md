@@ -60,6 +60,7 @@ If you want to interact with the model that uses 1024 chunk-size to partition da
 ```shell
 streamlit run conversation/gpt_with_data_1024.py
 ```
+Currently, it uses top 4 chunks to generate an answer. You can modify this by modifying the parameter k in lines 72 (for 512 chunk-size) and 103 (for 1024 chunk-size) and set it the number of chunks that you want to use for answer generation.
 
 # Model Evaluation
 There are 4 different files used for evaluating the models
