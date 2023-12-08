@@ -19,6 +19,8 @@ PINECONE_512_INDEX_API_KEY = os.getenv('PINECONE_512_INDEX_API_KEY')
 PINECONE_1024_INDEX_API_KEY = os.getenv('PINECONE_1024_INDEX_API_KEY')
 PINECONE_ENVIRONMENT_512 = os.getenv('PINECONE_ENVIRONMENT_512')
 PINECONE_ENVIRONMENT_1024 = os.getenv('PINECONE_ENVIRONMENT_1024')
+PINECONE_512_INDEX_NAME = os.getenv('PINECONE_512_INDEX_NAME')
+PINECONE_1024_INDEX_NAME = os.getenv('PINECONE_1024_INDEX_NAME')
 
 co = cohere.Client(COHERE_API_KEY)
 embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
@@ -41,14 +43,11 @@ def parse_rerank_to_list(k, query, documents):
 def parse_doc_to_list(doc):
     input_string = str(doc)
 
-    # Split the input string into individual Document strings
     document_strings = input_string.split("), Document(")
 
-    # Remove any extra text around the Document strings
     document_strings[0] = document_strings[0].replace("Document(", "")
     document_strings[-1] = document_strings[-1].replace("')", "")
 
-    # Extract the page_content values and create a list
     page_contents = [doc.split("page_content=")[1] for doc in document_strings]
 
     return page_contents
@@ -57,7 +56,7 @@ def parse_doc_to_list(doc):
 def get_response_rerank_512(prompt: str, chat_history: List[Tuple[str, str]]) -> Any:
     pinecone.init(environment=PINECONE_ENVIRONMENT_512, api_key=PINECONE_512_INDEX_API_KEY)
 
-    search_helper = Pinecone.from_existing_index(index_name="doc-api-hf-data-index-512", embedding=embeddings)
+    search_helper = Pinecone.from_existing_index(index_name=PINECONE_512_INDEX_NAME, embedding=embeddings)
 
     pinecone_retriever = search_helper.as_retriever(search_kwargs={"k": 27})
     # compressor_1 = CohereRerank(cohere_api_key="BQXYQsXawo6tfRYBxbiegFVvmVlQZTuoM2aP4S6Z", top_n=1)
@@ -111,7 +110,7 @@ def get_response_rerank_512(prompt: str, chat_history: List[Tuple[str, str]]) ->
 def get_response_rerank_1024(prompt: str, chat_history: List[Tuple[str, str]]) -> Any:
     pinecone.init(environment=PINECONE_ENVIRONMENT_1024, api_key=PINECONE_1024_INDEX_API_KEY)
 
-    search_helper = Pinecone.from_existing_index(index_name="doc-api-hf-data-index-1024", embedding=embeddings)
+    search_helper = Pinecone.from_existing_index(index_name=PINECONE_1024_INDEX_NAME, embedding=embeddings)
 
     pinecone_retriever = search_helper.as_retriever(search_kwargs={"k": 27})
     # compressor_1 = CohereRerank(cohere_api_key="BQXYQsXawo6tfRYBxbiegFVvmVlQZTuoM2aP4S6Z", top_n=1)

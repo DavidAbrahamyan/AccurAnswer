@@ -1,22 +1,31 @@
 import pandas as pd
 
 from langchain.document_loaders import ReadTheDocsLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter, SpacyTextSplitter
-from langchain.embeddings import OpenAIEmbeddings, HuggingFaceEmbeddings
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Pinecone
 import pinecone
 
 import os
 from dotenv import load_dotenv, find_dotenv
 import logging
-
 load_dotenv(find_dotenv())
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 PINECONE_512_INDEX_API_KEY = os.getenv('PINECONE_512_INDEX_API_KEY')
 PINECONE_1024_INDEX_API_KEY = os.getenv('PINECONE_1024_INDEX_API_KEY')
+PINECONE_512_INDEX_NAME = os.getenv('PINECONE_512_INDEX_NAME')
+PINECONE_1024_INDEX_NAME = os.getenv('PINECONE_1024_INDEX_NAME')
+PINECONE_ENVIRONMENT_512 = os.getenv('PINECONE_ENVIRONMENT_512')
+PINECONE_ENVIRONMENT_1024=os.getenv('PINECONE_ENVIRONMENT_1024')
 
 pd.options.display.max_colwidth = None
+
+logging.basicConfig(
+    level="DEBUG",
+    format="%(asctime)s:%(name)s:%(levelname)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 
 def load_data_512(text_data, document_data):
@@ -30,10 +39,10 @@ def load_data_512(text_data, document_data):
 
     embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY, disallowed_special=())
     pinecone.init(
-        api_key="127d479d-c90a-47af-8743-f9e85951f18a",
-        environment="gcp-starter"
+        api_key=PINECONE_512_INDEX_API_KEY,
+        environment=PINECONE_ENVIRONMENT_512
     )
-    index_name = "doc-api-hf-data-index-512"
+    index_name = PINECONE_512_INDEX_NAME
     logging.info("Started loading hugging face transformers data into Pinecone with OpenAI embeddings model")
     Pinecone.from_texts(text_data, embeddings, index_name=index_name)
     logging.info("Successfully loaded hugging face transformers data into Pinecone with OpenAI embeddings model")
@@ -53,10 +62,10 @@ def load_data_1024(text_data, document_data):
 
     embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY, disallowed_special=())
     pinecone.init(
-        api_key="4933c5d2-7c10-4221-961f-81796883a82e",
-        environment="gcp-starter"
+        api_key=PINECONE_1024_INDEX_API_KEY,
+        environment=PINECONE_ENVIRONMENT_1024
     )
-    index_name = "doc-api-hf-data-index-1024"
+    index_name = PINECONE_1024_INDEX_NAME
     logging.info("Started loading hugging face transformers data into Pinecone with OpenAI embeddings model")
     Pinecone.from_texts(text_data, embeddings, index_name=index_name)
     logging.info("Successfully loaded hugging face transformers data into Pinecone with OpenAI embeddings model")
@@ -87,7 +96,6 @@ def split_data_512(text_data_path: str, document_data_path: str):
     if os.path.exists(hugging_face_transformers_path):
         with open(hugging_face_transformers_path, "r") as hf_transformers_file:
             hugging_face_transformers_data = hf_transformers_file.read()
-
     lang_chain_chunks = text_splitter.split_documents(raw_documents)
     logging.info(f"Langchain documentation Split into {len(lang_chain_chunks)} chunks using a chunk size of 512") # 30235 chunks
 
@@ -126,13 +134,8 @@ def split_data_1024(text_data_path, document_data_path):
     return lang_chain_chunks, hugging_face_transformers_chunks
 
 
-# load_hugging_face_transformers_data(hugging_face_transformers_chunks)
-
-# load_docs_and_api_to_pinecone_with_openai(full_text_data_chunks, full_document_data_chunks)
-# for doc in documents:
-#     old_path = doc.metadata["source"]
-#     new_path = old_path.replace("langchain-docs", "https:/")
-#     doc.metadata.update({"source": new_path})
-# print(documents[0].metadata["source"])
 if __name__ == '__main__':
-    print('PyCharm')
+    lang_chain_chunks_512, hugging_face_transformers_chunks_512 = split_data_512("hugging_face_transformers.txt", "langchain-docs")
+    lang_chain_chunks_1024, hugging_face_transformers_chunks_1024 = split_data_1024("", "")
+    load_data_512(hugging_face_transformers_chunks_512, lang_chain_chunks_512)
+    load_data_1024(hugging_face_transformers_chunks_1024, lang_chain_chunks_1024)

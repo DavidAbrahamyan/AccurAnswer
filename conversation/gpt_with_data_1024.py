@@ -3,7 +3,7 @@ from response_generation import get_response_rerank_1024
 import tiktoken
 
 MAX_TOKEN_LIMIT = 50
-st.title(":orange[GPT enhanced with Documentation data]")
+st.title(":orange[AccurAnswer]")
 user_prompt = st.chat_input("Please enter your question")
 
 
@@ -28,20 +28,15 @@ if user_prompt:
         if get_token_count(st.session_state["chat_history"]) > MAX_TOKEN_LIMIT:
             if len(st.session_state["chat_history"]) > 1:
                 removed_chat_history = st.session_state["chat_history"].pop(0)
-                # print("removed chat: ", removed_chat_history)
 
-        # print(len(tiktoken.get_encoding(st.session_state["chat_history"])))
         get_token_count(st.session_state["chat_history"])
         response = get_response_rerank_1024(prompt=user_prompt, chat_history=st.session_state["chat_history"])
 
         answer = response["answer"]
-        #answer = response["result"]
         st.session_state["user_input_history"].append(user_prompt)
         st.session_state["answer_history"].append(answer)
         st.session_state["chat_history"].append((user_prompt, answer))
         get_token_count(st.session_state["chat_history"])
-
-        #st.write(answer)
 
 
 if st.session_state.get("chat_history"):

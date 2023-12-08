@@ -1,6 +1,7 @@
 cohere==4.36
 datasets==2.14.6
 langchain==0.0.325
+llama-index==0.9.12
 openai==0.28.0
 pandas==2.1.1
 python-dotenv==1.0.0

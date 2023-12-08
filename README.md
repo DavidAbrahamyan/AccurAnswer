@@ -27,6 +27,12 @@ PINECONE_1024_INDEX_API_KEY=The API Key of the index that is going to store data
 
 COHERE_API_KEY=Your Cohere API Key
 
+### Install Necessary Dependencies
+
+```shell
+pip3 install -r requirements.txt
+```
+
 ### Load Data into Pinecone
 run the following command to load the data into Pinecone
 
@@ -38,18 +44,22 @@ python3 load_data.py
 If you want to interact with the model that uses 512 chunk-size to partition data, run the following:
 
 ```shell
-streamlit run conversation/gpt_with_data_512
+streamlit run conversation/gpt_with_data_512.py
 ```
 
 If you want to interact with the model that uses 1024 chunk-size to partition data, run the following:
 
 ```shell
-streamlit run conversation/gpt_with_data_1024
+streamlit run conversation/gpt_with_data_1024.py
 ```
 
 # Model Evaluation
 There are 4 different files used for evaluating the models
+Firstly, run the following command:
 
+```shell
+ export OPENAI_API_KEY="Your API Key" 
+```
 If you want to run evaluations for the architecture that uses a chunk size of 512 (no rerank), run the following:
 
 ```shell
