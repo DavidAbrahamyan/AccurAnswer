@@ -136,6 +136,6 @@ def split_data_1024(text_data_path, document_data_path):
 
 if __name__ == '__main__':
     lang_chain_chunks_512, hugging_face_transformers_chunks_512 = split_data_512("hugging_face_transformers.txt", "langchain-docs")
-    lang_chain_chunks_1024, hugging_face_transformers_chunks_1024 = split_data_1024("", "")
+    lang_chain_chunks_1024, hugging_face_transformers_chunks_1024 = split_data_1024("hugging_face_transformers.txt", "langchain-docs")
     load_data_512(hugging_face_transformers_chunks_512, lang_chain_chunks_512)
     load_data_1024(hugging_face_transformers_chunks_1024, lang_chain_chunks_1024)

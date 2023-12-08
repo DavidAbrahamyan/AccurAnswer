@@ -34,7 +34,11 @@ pip3 install -r requirements.txt
 ```
 
 ### Load Data into Pinecone
-run the following command to load the data into Pinecone
+Before loading data, make sure that you have LangChain documentation stored locally on your computer. In order to have that you can download it from the following link: https://drive.google.com/file/d/13djlL_W_VVKELxbaXuyUhz5RvkVISqVB/view?usp=sharing
+Once you download it, navigate to load_data.py file, and, if needed, change "langchain-docs" in lines 138, 139 to the location that you store langchain-docs folder in.
+
+
+Run the following command to load the data into Pinecone
 
 ```shell
 python3 load_data.py
