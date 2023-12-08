@@ -25,6 +25,10 @@ PINECONE_512_INDEX_API_KEY=The API Key of the index that is going to store data 
 
 PINECONE_1024_INDEX_API_KEY=The API Key of the index that is going to store data that is split using 1024 chunk-size
 
+PINECONE_512_INDEX_NAME=The name of the index where you store data that is split using 512 chunk-size
+
+PINECONE_1024_INDEX_NAME=The name of the index where you store data that is split using 1024 chunk-size
+
 COHERE_API_KEY=Your Cohere API Key
 
 ### Install Necessary Dependencies
